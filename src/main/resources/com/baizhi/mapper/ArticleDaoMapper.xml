@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDao">
+
+    <select id="findByReleaseDate" resultType="Article">
+        SELECT id,title,content,cover,author,release_date,guru_id
+        FROM article
+        ORDER BY release_date DESC limit 3
+    </select>
+
+    <select id="findByGuru" resultType="Article">
+        SELECT id,title,content,cover,author,release_date,guru_id
+        FROM article
+        WHERE guru_id = #{guru_id}
+        ORDER BY release_date DESC
+    </select>
+
+
+</mapper>

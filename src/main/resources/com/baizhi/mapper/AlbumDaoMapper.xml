@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+
+    <select id="findByReleaseDate" resultType="Album">
+        SELECT id,name,cover,author,broadcast,counts,intro,status,release_date,upload_date,star
+        FROM album
+        ORDER BY release_date DESC limit 6
+    </select>
+
+</mapper>
