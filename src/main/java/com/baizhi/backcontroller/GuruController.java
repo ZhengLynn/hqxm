@@ -56,7 +56,7 @@ public class GuruController {
             map.put("status", 500);
             map.put("msg", "文件为空");
         }
-        String dir = "/staticc/img/guru/";
+        String dir = "/static/img/guru/";
         String url = FileURLUtil.getURL(request, photo, dir);
         //存入数据库
         Guru guru = new Guru();
