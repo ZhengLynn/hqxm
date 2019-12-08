@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.AlbumDao;
 import com.baizhi.entity.Album;
@@ -24,6 +26,7 @@ public class AlbumServiceImp implements AlbumService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Map findAll(Integer page, Integer rows) {
         Map map = new HashMap();
         List<Album> albums = albumDao.selectByRowBounds(new Album(), new RowBounds((page - 1) * rows, rows));
@@ -37,18 +40,21 @@ public class AlbumServiceImp implements AlbumService {
     }
 
     @Override
+    @AddCacheAnnotation
     public List<Album> findByReleaseDate() {
         return albumDao.findByReleaseDate();
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Album findByID(String id) {
         return albumDao.selectByPrimaryKey(id);
     }
 
     @Override
     @LogAnnotation("添加专辑")
+    @DelCacheAnnotation
     public Map save(Album album) {
         Map map = new HashMap();
         String s = UUID.randomUUID().toString().replace("-", "");
@@ -63,6 +69,7 @@ public class AlbumServiceImp implements AlbumService {
 
     @Override
     @LogAnnotation("删除专辑")
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         Map map = new HashMap();
         List<String> list = Arrays.asList(id);
@@ -74,6 +81,7 @@ public class AlbumServiceImp implements AlbumService {
 
     @Override
     @LogAnnotation("修改专辑信息")
+    @DelCacheAnnotation
     public Map update(Album album) {
         Map map = new HashMap();
         albumDao.updateByPrimaryKeySelective(album);

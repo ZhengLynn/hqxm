@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.BannerDao;
 import com.baizhi.entity.Banner;
@@ -24,6 +26,7 @@ public class BannerServiceImp implements BannerService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Map findByPage(Integer page, Integer rows) {
         Map<String, Object> map = new HashMap<>();
         if (page == null) page = 0;
@@ -38,22 +41,26 @@ public class BannerServiceImp implements BannerService {
     }
 
     @Override
+    @AddCacheAnnotation
     public List<Banner> findAll() {
         return bannerDao.selectAll();
     }
 
     @Override
+    @AddCacheAnnotation
     public Banner findByID(String id) {
         return bannerDao.selectByPrimaryKey(id);
     }
 
     @Override
+    @AddCacheAnnotation
     public List<Banner> findByRand() {
         return bannerDao.findByRand();
     }
 
     @Override
     @LogAnnotation("添加轮播图")
+    @DelCacheAnnotation
     public Map save(Banner banner) {
         Map map = new HashMap();
         String s = UUID.randomUUID().toString().replace("-", "");
@@ -67,6 +74,7 @@ public class BannerServiceImp implements BannerService {
 
     @Override
     @LogAnnotation("删除轮播图")
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         Map map = new HashMap();
         List<String> list = Arrays.asList(id);
@@ -78,6 +86,7 @@ public class BannerServiceImp implements BannerService {
 
     @Override
     @LogAnnotation("修改轮播图信息")
+    @DelCacheAnnotation
     public Map update(Banner banner) {
         Map map = new HashMap();
         bannerDao.updateByPrimaryKeySelective(banner);

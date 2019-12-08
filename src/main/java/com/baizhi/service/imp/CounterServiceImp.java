@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.dao.CounterDao;
 import com.baizhi.entity.Counter;
 import com.baizhi.service.CounterService;
@@ -22,21 +24,25 @@ public class CounterServiceImp implements CounterService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public List<Counter> findByUidAndCId(String uid, String id) {
         return counterDao.findByUidAndCId(uid, id);
     }
 
     @Override
+    @DelCacheAnnotation
     public void save(Counter counter) {
         counterDao.insertSelective(counter);
     }
 
     @Override
+    @DelCacheAnnotation
     public void update(Counter counter) {
         counterDao.updateByPrimaryKeySelective(counter);
     }
 
     @Override
+    @DelCacheAnnotation
     public void delete(String id) {
         counterDao.deleteByPrimaryKey(id);
     }

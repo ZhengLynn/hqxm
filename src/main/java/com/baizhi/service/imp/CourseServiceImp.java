@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.dao.CourseDao;
 import com.baizhi.entity.Course;
 import com.baizhi.service.CourseService;
@@ -22,16 +24,19 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public List<Course> findAll(String uid) {
         return courseDao.findByUid(uid);
     }
 
     @Override
+    @DelCacheAnnotation
     public void save(Course course) {
         courseDao.insertSelective(course);
     }
 
     @Override
+    @DelCacheAnnotation
     public void delete(String id) {
         courseDao.deleteByPrimaryKey(id);
     }

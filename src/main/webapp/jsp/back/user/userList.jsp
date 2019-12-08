@@ -9,7 +9,7 @@
             colNames: ['ID', '用户名', '性别', '状态', '真实姓名', '简介', '地址', '创建时间', '最后登录时间', '头像'],
             colModel: [
                 {name: 'id', align: 'center', search: false},
-                {name: 'username', editable: true, align: 'center', editrules: {required: true}},
+                {name: 'nick_name', editable: true, align: 'center', editrules: {required: true}},
                 {name: 'sex', editable: true, align: 'center'},
                 {
                     name: 'status', editable: true, align: 'center', edittype: 'select',
@@ -66,7 +66,7 @@
             },
             {
                 closeAfterEdit: true, beforeShowForm: function (frm) {
-                    $(frm).find('#username').attr('disabled', true);
+                    $(frm).find('#nick_name').attr('disabled', true);
                     $(frm).find('#sex').attr('disabled', true);
                     $(frm).find('#name').attr('disabled', true);
                     $(frm).find('#intro').attr('disabled', true);

@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.GuruDao;
 import com.baizhi.entity.Guru;
@@ -23,6 +25,7 @@ public class GuruServiceImp implements GuruService {
     private GuruDao guruDao;
 
     @Override
+    @AddCacheAnnotation
     public Map findByPage(Integer page, Integer rows) {
         Map map = new HashMap();
         List<Guru> gurus = guruDao.selectByRowBounds(new Guru(), new RowBounds((page - 1) * rows, rows));
@@ -37,18 +40,21 @@ public class GuruServiceImp implements GuruService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public List<Guru> findAll() {
         return guruDao.selectAll();
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Guru findById(String id) {
         return guruDao.selectByPrimaryKey(id);
     }
 
     @Override
     @LogAnnotation("添加上师")
+    @DelCacheAnnotation
     public Map save(Guru guru) {
         Map map = new HashMap();
         String s = UUID.randomUUID().toString().replace("-", "");
@@ -62,6 +68,7 @@ public class GuruServiceImp implements GuruService {
 
     @Override
     @LogAnnotation("删除上师")
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         Map map = new HashMap();
         guruDao.deleteByIdList(Arrays.asList(id));
@@ -72,6 +79,7 @@ public class GuruServiceImp implements GuruService {
 
     @Override
     @LogAnnotation("修改上师信息")
+    @DelCacheAnnotation
     public Map update(Guru guru) {
         Map map = new HashMap();
         guruDao.updateByPrimaryKeySelective(guru);

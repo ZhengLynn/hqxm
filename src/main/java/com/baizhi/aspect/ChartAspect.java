@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Aspect
 @Configuration
-public class UserAspect {
+public class ChartAspect {
     @Autowired
     private UserService userService;
 
@@ -28,7 +28,7 @@ public class UserAspect {
      * 当用户注册或修改信息时调用此功能
      * 此功能用来刷新注册趋势图、地理分布图
      */
-    @After("@annotation(com.baizhi.annotation.StatAnnotation)")
+    @After("@annotation(com.baizhi.annotation.ChartAnnotation)")
     public void flushECharts(JoinPoint joinPoint) {
         //定义一个map 用来存储注册时间 和 地域分布
         Map m = new HashMap();

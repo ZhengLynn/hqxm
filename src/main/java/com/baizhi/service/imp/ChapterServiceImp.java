@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.ChapterDao;
 import com.baizhi.entity.Chapter;
@@ -24,6 +26,7 @@ public class ChapterServiceImp implements ChapterService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Map findAll(Integer page, Integer rows, String album_id) {
         Map map = new HashMap();
         List<Chapter> chapters = chapterDao.selectByRowBounds(new Chapter().setAlbum_id(album_id), new RowBounds((page - 1) * rows, rows));
@@ -38,21 +41,21 @@ public class ChapterServiceImp implements ChapterService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Chapter findByID(String id) {
         return chapterDao.selectByPrimaryKey(id);
     }
 
     @Override
+    @AddCacheAnnotation
     public List<Chapter> findByAlbumId(String albumId) {
         return chapterDao.findByAlbumId(albumId);
     }
 
     @Override
     @LogAnnotation("添加章节")
+    @DelCacheAnnotation
     public Map save(Chapter chapter) {
-
-        System.out.println(chapter);
-
         Map map = new HashMap();
         String s = UUID.randomUUID().toString().replace("-", "");
         chapter.setId(s);
@@ -65,6 +68,7 @@ public class ChapterServiceImp implements ChapterService {
 
     @Override
     @LogAnnotation("删除专辑")
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         Map map = new HashMap();
         List<String> list = Arrays.asList(id);
@@ -76,6 +80,7 @@ public class ChapterServiceImp implements ChapterService {
 
     @Override
     @LogAnnotation("修改专辑信息")
+    @DelCacheAnnotation
     public Map update(Chapter chapter) {
         Map map = new HashMap();
         chapterDao.updateByPrimaryKeySelective(chapter);

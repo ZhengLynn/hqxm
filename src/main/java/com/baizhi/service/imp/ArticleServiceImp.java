@@ -1,5 +1,7 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.ArticleDao;
 import com.baizhi.dao.GuruDao;
@@ -28,6 +30,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Map findAll(Integer page, Integer rows) {
         Map map = new HashMap();
         List<Article> articles = articleDao.selectByRowBounds(new Article(), new RowBounds((page - 1) * rows, rows));
@@ -42,6 +45,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public List<Article> findByReleaseDate() {
         List<Article> articles = articleDao.findByReleaseDate();
         articles.forEach(article -> {
@@ -53,6 +57,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public List<Article> findByGuru(String[] guru_ids) {
         List<Article> list = new ArrayList<>();
         for (String guru_id : guru_ids) {
@@ -66,12 +71,14 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Article findById(String id) {
         return articleDao.selectByPrimaryKey(id);
     }
 
     @Override
     @LogAnnotation("添加文章")
+    @DelCacheAnnotation
     public Map save(Article article) {
         Map map = new HashMap();
         if (article.getRelease_date() == null) {
@@ -85,6 +92,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @LogAnnotation("删除文章")
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         List<String> list = Arrays.asList(id);
         Map map = new HashMap();
@@ -96,6 +104,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     @LogAnnotation("修改文章信息")
+    @DelCacheAnnotation
     public Map update(Article article) {
         Map map = new HashMap();
         articleDao.updateByPrimaryKeySelective(article);

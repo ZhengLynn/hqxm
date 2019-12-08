@@ -1,5 +1,8 @@
 package com.baizhi.service.imp;
 
+import com.baizhi.annotation.AddCacheAnnotation;
+import com.baizhi.annotation.ChartAnnotation;
+import com.baizhi.annotation.DelCacheAnnotation;
 import com.baizhi.annotation.LogAnnotation;
 import com.baizhi.dao.UserDao;
 import com.baizhi.entity.User;
@@ -24,6 +27,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public Map findAll(Integer page, Integer rows) {
         Map map = new HashMap();
         List<User> users = userDao.selectByRowBounds(new User(), new RowBounds((page - 1) * rows, rows));
@@ -38,11 +42,13 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @AddCacheAnnotation
     public User findById(String id) {
         return userDao.selectByPrimaryKey(id);
     }
 
     @Override
+    @AddCacheAnnotation
     public User findByPhone(String phone) {
         User user = userDao.selectOne(new User().setPhone(phone));
         return user;
@@ -74,7 +80,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @LogAnnotation("添加用户")
-    //@StatAnnotation
+    @ChartAnnotation
+    @DelCacheAnnotation
     public Map save(User user) {
         Map map = new HashMap();
         if (user.getCreate_date() == null) user.setCreate_date(new Date());
@@ -88,7 +95,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @LogAnnotation("删除用户")
-    //@StatAnnotation
+    @ChartAnnotation
+    @DelCacheAnnotation
     public Map delete(String[] id) {
         Map map = new HashMap();
         userDao.deleteByIdList(Arrays.asList(id));
@@ -99,7 +107,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @LogAnnotation("修改用户信息")
-    //@StatAnnotation
+    @ChartAnnotation
+    @DelCacheAnnotation
     public Map update(User user) {
         Map map = new HashMap();
         userDao.updateByPrimaryKeySelective(user);
